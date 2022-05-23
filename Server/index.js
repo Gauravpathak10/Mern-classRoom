@@ -16,7 +16,7 @@ app.use('/', UserRoute)
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 
-mongoose.connect('mongodb+srv://gaurav:gaurav@cluster0.1twlr.mongodb.net/myClassroom?retryWrites=true&w=majority')
+mongoose.connect('Your_Url')
     .then(() => {
         console.log('connected')
     })
