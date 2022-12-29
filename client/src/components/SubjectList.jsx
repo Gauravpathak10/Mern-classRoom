@@ -14,6 +14,7 @@ export const SubjectList = () => {
     }, [id])
     const getAllSubjects = () => {
         axios.get(`http://localhost:5000/api/Findcreateclass/${id}`)
+        
             .then((res) => {
                 setsubjectlist(res.data.data)
             })
@@ -52,7 +53,7 @@ export const SubjectList = () => {
                                     {isAuth && (
                                         <AiOutlineDelete title='Delete' className='link-btn-notes' id={list._id} onClick={deleteSubject} />
                                     )}
-                                    <a className='link-btn-notes' title='view' target="_blank" rel="noreferrer" href={`/subject/${list._id}`}><AiOutlineEye /></a>
+                                    <Link className='link-btn-notes'  rel="noreferrer" to={`/subject/${list._id}`}><AiOutlineEye /></Link>
                                 </div>
                             </div>
                         </div>

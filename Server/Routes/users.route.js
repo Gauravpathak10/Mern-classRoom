@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from 'jsonwebtoken'
-import { createUser, DeleteTacherdata, findAllTeachers, LoginUser,  UpdateTeacherProfiledata } from "../controller/Create.controller.js";
+import { createUser, DeleteTacherdata, findAllTeachers, getUser, LoginUser,  refreshToken,  UpdateTeacherProfiledata, verifyToken } from "../controller/Create.controller.js";
 import { Deletefile } from "../controller/FilesController.js";
 import { createUserStudent, DeleteStudentdata, findbyidofStudent, findProfiledataStudent, LoginUserStudent, MergeidStudnenttoTeacher, UpdateStudentProfile } from "../controller/StudentControllerCreate.js";
 import { createSubject, DeleteSubject, findAllfiles, findAllSubjects, findAllSubjectsbyid, MergeidSubjectTeacher } from "../controller/SubjectController.js";
@@ -9,6 +9,9 @@ const router = express.Router()
 //TeacherLogin
 router.post('/api/register', createUser)
 router.post('/api/login', LoginUser)
+router.get('/api/user', verifyToken,getUser);
+router.get('/refresh', refreshToken, verifyToken, getUser);
+
 //Student Login
 router.post('/api/studentlogin', LoginUserStudent)
 router.get('/api/findspecifilestudent/:id', findProfiledataStudent)// not used//
@@ -36,6 +39,7 @@ router.delete('/api/deleteSubject/:id', DeleteSubject)
 
 //create class and merge
 router.post('/api/merge/:id', MergeidSubjectTeacher)
+
 // router.post('/api/uploadfile',fileUploaddata)
 
 //merge student in teacher

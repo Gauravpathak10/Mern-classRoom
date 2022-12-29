@@ -66,10 +66,6 @@ export const UserProfile = () => {
                             <td>{student.email}</td>
                         </tr>
                         <tr>
-                            <th>Password</th>
-                            <td>{student.ClassCode}</td>
-                        </tr>
-                        <tr>
                             <th>Role</th>
                             <td>{student.Role}</td>
                         </tr>

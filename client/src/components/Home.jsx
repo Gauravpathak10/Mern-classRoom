@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import UserNameContexts from './contexts/UserName/UserNameContext'
 import Modal from './Modal'
 import './Styles/All.css'
@@ -13,6 +13,7 @@ import { BsFillPersonPlusFill, BsPlus } from 'react-icons/bs'
 export const Home = () => {
     const { UserName, setUserName } = useContext(UserNameContexts)
     const { isAuth, setisAuth } = useContext(AuthVerifyState)
+    const nav = useNavigate()
 
     const { id } = useParams()
     useEffect(() => {
@@ -26,11 +27,8 @@ export const Home = () => {
 
 
     const logout = () => {
-        localStorage.removeItem('Token');
-        localStorage.removeItem('User-Creditinals');
-        localStorage.removeItem('User-data')
-        localStorage.removeItem('Role')
-        window.location.href = '/login'
+       localStorage.clear()
+        nav('/login')
     }
 
     return (
@@ -42,10 +40,10 @@ export const Home = () => {
                     {isAuth && (
                         <>
                             <Modal />
-                            <Link className='link-btn' to={`/addStudent/${id}`}>Add Student <BsFillPersonPlusFill/></Link>
+                            <Link className='link-btn' to={`/addStudent/${id}`}>Add Student <BsFillPersonPlusFill /></Link>
                             <div className='input-drop-down'>
                                 <span><AiOutlineUser /></span>
-                                <select name="" id="" onChange={() => window.location.href = `/teacherProfile/${id}`}>
+                                <select name="" id="" onChange={() => nav(`/teacherProfile/${id}`)}>
                                     <option value="">Teacher</option>
                                     <option value="">{UserName}</option>
                                 </select>
@@ -56,7 +54,7 @@ export const Home = () => {
                     {!isAuth && (
                         <div className='input-drop-down'>
                             <span><AiOutlineUser /></span>
-                            <select  name="" id="" onChange={() => window.location.href = `/userProfile/${id}`}>
+                            <select name="" id="" onChange={() => nav(`/userProfile/${id}`)}>
                                 <option value="">Student</option>
                                 <option value="">{UserName}</option>
                             </select>

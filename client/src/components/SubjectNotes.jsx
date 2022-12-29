@@ -4,7 +4,7 @@ import { AiFillEye, AiOutlineDelete, AiOutlineInfoCircle, AiOutlinePlus } from '
 import { HiOutlineSpeakerphone } from 'react-icons/hi'
 import { BsFiles } from 'react-icons/bs'
 import { MdDoneOutline } from 'react-icons/md'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import AuthVerifyState from './contexts/Auth/AuthContext'
 
 
@@ -80,10 +80,10 @@ export const SubjectNotes = () => {
               <AiOutlinePlus className='select-file' />
             </label>
             <input type="file" id='file' style={{ display: "none" }} onChange={(e) => setfile(e.target.files[0])} className='input-tile' />
-            <input type="text" placeholder='Add your title' value={title} onChange={(e) => setiltle(e.target.value)} />
+            <input type="text" placeholder='...Add your title' value={title} onChange={(e) => setiltle(e.target.value)} />
             <span></span>
             <HiOutlineSpeakerphone className='select-file' />
-            <input type="text" placeholder='Add announcement' value={announcements} onChange={(e) => setannouncements(e.target.value)} />
+            <input type="text" placeholder='...Add announcement' value={announcements} onChange={(e) => setannouncements(e.target.value)} />
             <MdDoneOutline type='submit' className='add' onClick={sendSpecificSubjectData} />
           </div>
           <hr />

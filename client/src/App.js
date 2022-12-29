@@ -4,7 +4,7 @@ import { Register } from './components/Register';
 import { Login } from './components/Login';
 import { Home } from './components/Home';
 import { useEffect, useState } from 'react';
-import { ErrorPage } from './components/ErrorPage';
+// import { ErrorPage } from './components/ErrorPage';
 import { SpecificSubject } from './components/SpecificSubject';
 import { AddStudent } from './components/AddStudent';
 import { UserProfile } from './components/UserProfile';
@@ -16,8 +16,7 @@ function App() {
 
   const [isLogin, SetisLogin] = useState(false)
   useEffect(() => {
-
-    if (!localStorage.getItem('Token') && window.location.href.indexOf('/login') === -1) {
+    if (!localStorage.getItem('token') && window.location.href.indexOf('/login') === -1) {
       window.location.href = '/login'
       SetisLogin(false)
     } else {
@@ -37,7 +36,7 @@ function App() {
             <Route path='/userProfile/:id' element={<UserProfile />} />
             <Route path='/edit/:id' element={<EditDelete />} />
             <Route path='/teacherProfile/:id' element={<TeacherUser />} />
-            <Route path='/teacherEdit/:id'  element={<EditTeacher/>}/>
+            <Route path='/teacherEdit/:id' element={<EditTeacher />} />
           </>
 
         )}

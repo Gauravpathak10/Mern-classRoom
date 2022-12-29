@@ -74,19 +74,28 @@ export const AddStudent = () => {
                 </div>
                 <div>
                     <h4>Added Students</h4>
-                    <span>Name</span>
-                    <span className='span-left'>ClassCode</span>
-                    {dataStudent.map((list, i) => {
-                        return (
-                            <p key={i}>
-                                {list.firstName + ' ' + list.lastName}
-                                <b> {list.ClassCode}</b>
-                                <span>
-                                    <button title='Delete' id={list._id} onClick={Deletestudent}>X</button>
-                                </span>
-                            </p>
-                        )
-                    })}
+                    <table border="1" cellPadding="4" cellSpacing="4">
+                        <tbody>
+                            <tr>
+                                <td>firstname</td>
+                                <td>lastName</td>
+                                <td>ClassCode</td>
+                                <td>Delete</td>
+                            </tr>
+                            {dataStudent.map((list, i) => {
+                                return (
+                                    <tr key={i}>
+                                        <th>{list.firstName}</th>
+                                        <th>{list.lastName}</th>
+                                        <th>{list.ClassCode}</th>
+                                        <th>
+                                            <button style={{ background: "transparent", border: "unset" }} title='Delete' id={list._id} onClick={Deletestudent}><AiFillDelete style={{ pointerEvents: "unset" }} /></button>
+                                        </th>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </>

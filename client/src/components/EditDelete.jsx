@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { AiOutlineMail, AiOutlineUser } from 'react-icons/ai'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { SiSuperuser } from 'react-icons/si'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 
 
@@ -14,19 +14,18 @@ export const EditDelete = () => {
 
     const { id } = useParams()
 
-
     const [data, setdata] = useState({
         id: USerid,
-        firstName: '',
-        lastName: '',
-        email: '',
-        ClassCode: "",
+        firstName: `${JSON.parse(localStorage.getItem('User-Creditinals')).firstName}`,
+        lastName: `${JSON.parse(localStorage.getItem('User-Creditinals')).lastName}`,
+        email: ` ${JSON.parse(localStorage.getItem('User-Creditinals')).email}`,
+        password: ` ${JSON.parse(localStorage.getItem('User-Creditinals')).email}`,
     })
 
 
     const SaveRegisterdata = (e) => {
         e.preventDefault()
-        if (data.firstName === '' || data.lastName === '' || data.email === '' || data.ClassCode === "") {
+        if (data.firstName === '' || data.lastName === '' || data.email === '') {
             return alert('All fields required')
         }
         axios.post(`http://localhost:5000/api/editStd/`, data)
@@ -61,31 +60,29 @@ export const EditDelete = () => {
         <div>
             <nav className='nav'>
                 <h3>Edit All your Credentials</h3>
-                <a href={`/userProfile/${id}`} className='link-btn'>Go back</a>
+                <Link to={`/userProfile/${id}`} className='link-btn'>Go back</Link>
             </nav>
             <div className='form-body-register'>
-                <div className='register-head-sub'>
-                    <p style={{ fontSize: "15px" }}>@Note : While editing you need to fill up all credentials if you wanna avoid some field , kindly fill up the default data registered for that specific field</p>
+                <div style={{ display: "flex" }}>
+                    <div className='register-head-sub'>
+                        <p style={{ fontSize: "15px" }}>@Note : While editing you need to fill up all credentials if you wanna avoid some field , kindly fill up the default data registered for that specific field</p>
+                    </div>
+                    <form className='form-register'>
+                        <div className='login-input'>
+                            <AiOutlineUser className='icon-log' />
+                            <input type="text" required name="firstName" value={data.firstName} placeholder='firstname' onChange={handleChangeteacherStudent} />
+                        </div >
+                        <div className='login-input'>
+                            <SiSuperuser className='icon-log' />
+                            <input type="text" required name="lastName" value={data.lastName} placeholder='lastname' onChange={handleChangeteacherStudent} />
+                        </div>
+                        <div className='login-input'>
+                            <AiOutlineMail className='icon-log' />
+                            <input type="email" required name="email" value={data.email} placeholder='Email' onChange={handleChangeteacherStudent} />
+                        </div>
+                        <button className='link-btn' type='submit' onClick={SaveRegisterdata}>Update</button>
+                    </form>
                 </div>
-                <form className='form-register'>
-                    <div className='login-input'>
-                        <AiOutlineUser className='icon-log' />
-                        <input type="text" required name="firstName" value={data.firstName} placeholder='firstname' onChange={handleChangeteacherStudent} />
-                    </div >
-                    <div className='login-input'>
-                        <SiSuperuser className='icon-log' />
-                        <input type="text" required name="lastName" value={data.lastName} placeholder='lastname' onChange={handleChangeteacherStudent} />
-                    </div>
-                    <div className='login-input'>
-                        <AiOutlineMail className='icon-log' />
-                        <input type="email" required name="email" value={data.email} placeholder='Email' onChange={handleChangeteacherStudent} />
-                    </div>
-                    <div className='login-input'>
-                        <RiLockPasswordFill className='icon-log' />
-                        <input type="password" required name="ClassCode" value={data.ClassCode} placeholder='classcode' onChange={handleChangeteacherStudent} />
-                    </div>
-                    <button type='submit' onClick={SaveRegisterdata}>Update student</button>
-                </form>
             </div>
         </div>
     )

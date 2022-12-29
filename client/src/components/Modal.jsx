@@ -1,12 +1,13 @@
 import axios from "axios";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsPlus } from "react-icons/bs";
-import { useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 
 export default function Modal() {
     const [modal, setModal] = useState(false);
     const { id } = useParams()
+
 
     const [subjectData, setsubjectdata] = useState({
         SubjectName: "",
@@ -17,17 +18,17 @@ export default function Modal() {
 
 
     const saveSubject = () => {
-        axios.post(`http://localhost:5000/api/merge/${id}`, subjectData)
-            .then((res) => {
-                console.log(res.data.data)
-                // setModal(false)
+        const { SubjectName, Description, TeachearName } = subjectData
+        const data = { SubjectName, Description, TeachearName }
+        axios.post(`http://localhost:5000/api/merge/${id}`, data)
+            .then(() => {
                 subjectData.SubjectName('')
                 subjectData.Description('')
                 subjectData.TeachearName('')
-                // window.location.href = `/home/${id}`
+                setModal(false)
             })
             .catch((err) => {
-                console.log(err.message)
+                alert(err.response.data.message)
             })
     }
 
@@ -61,7 +62,7 @@ export default function Modal() {
                 <div className="modal">
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
-                        <h4>Create Subject <BsPlus/></h4>
+                        <h4>Create Subject <BsPlus /></h4>
                         <AiFillCloseCircle className="close-modal" onClick={toggleModal} />
                         <form action="" className="form-register-class">
                             <input type="text" placeholder="subject name" name="SubjectName" value={subjectData.SubjectName} onChange={handleChangeSubject} />

@@ -4,19 +4,23 @@ import UserRoute from './Routes/users.route.js'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import multer from 'multer'
+import cookieParser from 'cookie-parser'
 import Files from './model/FileUpload.js';
 
 
 
 const app = express()
 app.use(cors());
+app.use(cookieParser())
 app.use('/files', express.static('files'))
 app.use(bodyParser.json())
 app.use('/', UserRoute)
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 
-mongoose.connect('mongodb+srv://gaurav:gaurav@cluster0.1twlr.mongodb.net/myClassroom?retryWrites=true&w=majority')
+// default url = mongodb+srv://gaurav:gaurav@cluster0.1twlr.mongodb.net/myClassroom?retryWrites=true&w=majority
+
+mongoose.connect('mongodb://localhost:27017/MernClassroom')
     .then(() => {
         console.log('connected')
     })
@@ -41,7 +45,7 @@ app.post('/single/:id', upload.single('files'), (req, res) => {
     try {
         const newNote = new Files({
             title: req.body.title,
-            name: req.file.fieldname,
+            name: req.file.path,
             path: req.file.destination,
             subjectid: req.params.id,
             path: 'http://localhost:5000/' + req.file.path,

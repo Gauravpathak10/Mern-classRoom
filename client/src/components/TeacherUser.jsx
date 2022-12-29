@@ -58,10 +58,6 @@ export const TeacherUser = () => {
                         <td>{teacher.email}</td>
                     </tr>
                     <tr>
-                        <th>Password</th>
-                        <td>{teacher.password}</td>
-                    </tr>
-                    <tr>
                         <th>Role</th>
                         <td>{teacher.Role}</td>
                     </tr>

@@ -3,10 +3,15 @@ import React, { useState } from 'react'
 import './Styles/All.css'
 import { AiOutlineUser } from 'react-icons/ai'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { Link } from 'react-router-dom';
+import { ImCancelCircle } from 'react-icons/im'
+import { Link, useNavigate } from 'react-router-dom';
+import { BiError } from 'react-icons/bi'
 
 export const Login = () => {
     const [toggleState, setToggleState] = useState(2);
+    const [Error, setError] = useState('')
+    const [StudentError, setErrorStd] = useState('')
+    const nav = useNavigate()
 
 
     const [Studentdata, setStudentdata] = useState({
@@ -24,22 +29,23 @@ export const Login = () => {
         e.preventDefault()
         axios.post('http://localhost:5000/api/login', data)
             .then((res) => {
+                console.log(res.data.data);
                 if (res.status === 200) {
-                    localStorage.setItem('Token', res.data.Token);
+                    localStorage.setItem('token', res.data.token);
                     var Role = res.data.data.Role;
                     localStorage.setItem('Role', Role)
                     var data = JSON.stringify(res.data.data);
                     localStorage.setItem('User-Creditinals', data);
                     localStorage.setItem('User-data', res.data.data.firstName)
-                    window.location.href = `/home/${res.data.data._id}`
+                    nav(`/home/${res.data.data._id}`)
                 }
                 else {
-                    window.location.href = `/login`
+                    nav(`/login`)
                 }
             })
 
             .catch((err) => {
-                alert(err.response.data.message)
+                setError(err.response.data.message)
             })
     }
 
@@ -51,21 +57,21 @@ export const Login = () => {
         axios.post('http://localhost:5000/api/studentlogin', Studentdata)
             .then((res) => {
                 if (res.status === 200) {
-                    localStorage.setItem('Token', res.data.Token);
+                    localStorage.setItem('token', res.data.token);
                     var data = JSON.stringify(res.data.data);
                     var Role = res.data.data.Role;
                     localStorage.setItem('Role', Role)
                     localStorage.setItem('User-Creditinals', data);
                     localStorage.setItem('User-data', res.data.data.firstName)
-                    window.location.href = `/home/${res.data.data.AddedTeacherId}`
+                    nav(`/home/${res.data.data.AddedTeacherId}`)
                 }
                 else {
-                    window.location.href = `/login`
+                    nav(`/login`)
                 }
             })
 
             .catch((err) => {
-                alert(err.response.data.message)
+                setErrorStd(err.response.data.message)
             })
     }
 
@@ -81,6 +87,7 @@ export const Login = () => {
     //Save Teacher
     function handleChange(event) {
         const { name, value } = event.target
+        setError('')
         setdata(prevInput => {
             return {
                 ...prevInput,
@@ -91,12 +98,20 @@ export const Login = () => {
     //Student
     function handleChangeStudent(event) {
         const { name, value } = event.target
+        setErrorStd('')
         setStudentdata(prevInputStudent => {
             return {
                 ...prevInputStudent,
                 [name]: value
             }
         })
+    }
+
+    const disabledError = () => {
+        setErrorStd('')
+    }
+    const disabledErrorTeacher = () => {
+        setError('')
     }
     return (
         <div>
@@ -118,8 +133,17 @@ export const Login = () => {
                 <div
                     className={toggleState === 1 ? "content  active-content" : "content"}
                 >
-                    <p style={{ textAlign: "center", margin: 'unset', color: 'black' }}>Join Class</p>
-                    <hr />
+                    <p style={{
+                        textAlign: "center", margin: 'unset', color: 'black', lineHeight: '36px',
+                        borderBottom: '1px solid black'
+                    }}>Join class</p>
+                    {StudentError && (
+                        <p className='error'>
+                            <span className='error-svg'><BiError/></span>
+                            <span>{StudentError}</span>
+                            <span className='cancel'><ImCancelCircle onClick={disabledError} /></span>
+                        </p>
+                    )}
                     <div className='form-container-login'>
                         <form style={{ textAlign: "center" }}>
                             <img src={require('../Assets/profile.png')} alt="profile" />
@@ -129,9 +153,13 @@ export const Login = () => {
                             </div>
                             <div className='login-input'>
                                 <RiLockPasswordFill className='icon-log' />
-                                <input name='ClassCode' type='password' placeholder='ClassCode' value={Studentdata.ClassCode} onChange={handleChangeStudent} />
+                                <input name='ClassCode' type='password' placeholder='classCode' value={Studentdata.ClassCode} onChange={handleChangeStudent} />
                             </div>
-                            <button onClick={VerifybtnStudent}>Login</button>
+                            <button className='form-container-btn' onClick={VerifybtnStudent}>Login</button>
+                            <div className='create-account-btn'>
+                                <span>create account</span>
+                                <Link to={`/`}>register</Link>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -139,8 +167,18 @@ export const Login = () => {
                 <div
                     className={toggleState === 2 ? "content  active-content" : "content"}
                 >
-                    <p style={{ textAlign: "center", margin: 'unset', color: 'black' }}>Log into existing class</p>
-                    <hr />
+                    <p style={{
+                        textAlign: "center", margin: 'unset', color: 'black', lineHeight: '36px',
+                        borderBottom: '1px solid black'
+                    }}>Log into existing class</p>
+
+                    {Error && (
+                        <p className='error'>
+                              <span className='error-svg'><BiError/></span>
+                            <span>{Error}</span>
+                            <span className='cancel'><ImCancelCircle onClick={disabledErrorTeacher} /></span>
+                        </p>
+                    )}
                     <div className='form-container-login'>
                         <form style={{ textAlign: "center" }}
                         >
@@ -153,8 +191,11 @@ export const Login = () => {
                                 <RiLockPasswordFill className='icon-log' />
                                 <input name='password' type='password' placeholder='password' value={data.password} onChange={handleChange} />
                             </div>
-                            <button className='link-btn' onClick={VerifyBtnTeacher}>Login</button>
-                            <Link to={`/`} className='link-btn'>register</Link>
+                            <button className='form-container-btn' onClick={VerifyBtnTeacher}>Login</button>
+                            <div className='create-account-btn'>
+                                <span>create account</span>
+                                <Link to={`/`}>register</Link>
+                            </div>
                         </form>
                     </div>
                 </div>

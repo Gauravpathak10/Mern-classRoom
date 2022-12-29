@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { AiOutlineUser, AiOutlineMail } from 'react-icons/ai'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import {  BiChevronRight } from 'react-icons/bi'
+import { BiChevronRight } from 'react-icons/bi'
 import { SiSuperuser } from "react-icons/si"
 import { Link, useNavigate } from 'react-router-dom'
 import './Styles/All.css'
@@ -65,8 +65,11 @@ export const Register = () => {
                         <RiLockPasswordFill className='icon-log' />
                         <input type="password" required name="password" value={data.password} placeholder='passkey' onChange={handleChange} />
                     </div>
-                    <button type='submit' onClick={SaveRegisterdata}>Register</button>
-                    <Link to={'/login'} className='link-btn'> Login</Link>
+                    <button type='submit' className='form-container-btn' onClick={SaveRegisterdata}>Register</button>
+                    <div className='create-account-btn'>
+                        <span>create account</span>
+                        <Link to={'/login'} > Login</Link>
+                    </div>
                 </form>
             </div>
         </>

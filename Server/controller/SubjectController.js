@@ -5,19 +5,30 @@ import files from "../model/FileUpload.js"
 
 
 export const createSubject = async (req, res) => {
-    const dataDuplicate = await Subject.findOne({ SubjectName: req.body.SubjectName })
-    if (dataDuplicate) {
-        return res.status(422).json({
-            message: "Subject already exists",
-            status: false
+
+    try {
+        const dataDuplicate = await Subject.findOne({ SubjectName: req.body.SubjectName })
+        if (dataDuplicate) {
+            res.status(422).json({
+                status: false,
+                message: "Subject already exists"
+            })
+        }
+        const addUserAfterCheck = await Subject.create(req.body)
+        return res.status(201).json({
+            data: addUserAfterCheck,
+            status: true,
+            message: "Sucessfully created"
+        })
+    } catch (error) {
+        res.status(404).json({
+            status: false,
+            message: error
         })
     }
-    const addUserAfterCheck = await Subject.create(req.body)
-    res.status(200).json({
-        data: addUserAfterCheck,
-        status: true,
-        message: "Sucessfully created"
-    })
+
+
+
 }
 //find all subjects
 export const findAllSubjects = (req, res) => {
@@ -108,15 +119,22 @@ export const DeleteSubject = (req, res) => {
 
 export const MergeidSubjectTeacher = async (req, res) => {
     try {
-        let CategoryIDdata = await TeacherData.findOne({ _id: req.params.id })
+        let teacherData = await TeacherData.findOne({ _id: req.params.id });
+        const dataDuplicate = await Subject.findOne({ SubjectName: req.body.SubjectName })
+
+        if (dataDuplicate) {
+            return res.status(422).json({
+                status: false,
+                message: "Subject already exists"
+            })
+        }
         let userData = {
             SubjectName: req.body.SubjectName,
             Description: req.body.Description,
             TeachearName: req.body.TeachearName,
-            TeacherId: CategoryIDdata._id,
-        } 
+            TeacherId: teacherData._id,
+        }
         let newData = await Subject.create(userData)
-        console.log(newData)
         return res.status(200).json({
             message: "Success merged",
             data: newData,
