@@ -18,9 +18,13 @@ app.use('/', UserRoute)
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 
+<<<<<<< HEAD
 // default url = mongodb+srv://gaurav:gaurav@cluster0.1twlr.mongodb.net/myClassroom?retryWrites=true&w=majority
 
 mongoose.connect('mongodb://localhost:27017/MernClassroom')
+=======
+mongoose.connect('Your_Url')
+>>>>>>> 982b05b90a8e129c8909abe7c88cdb13a2cd3107
     .then(() => {
         console.log('connected')
     })
