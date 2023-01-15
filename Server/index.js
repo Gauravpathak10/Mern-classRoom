@@ -18,13 +18,10 @@ app.use('/', UserRoute)
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 
-<<<<<<< HEAD
 // default url = mongodb+srv://gaurav:gaurav@cluster0.1twlr.mongodb.net/myClassroom?retryWrites=true&w=majority
 
 mongoose.connect('mongodb://localhost:27017/MernClassroom')
-=======
-mongoose.connect('Your_Url')
->>>>>>> 982b05b90a8e129c8909abe7c88cdb13a2cd3107
+
     .then(() => {
         console.log('connected')
     })
@@ -53,7 +50,7 @@ app.post('/single/:id', upload.single('files'), (req, res) => {
             path: req.file.destination,
             subjectid: req.params.id,
             path: 'http://localhost:5000/' + req.file.path,
-            announcements:req.body.announcements
+            announcements: req.body.announcements
 
         })
         newNote.save()

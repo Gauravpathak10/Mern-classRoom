@@ -19,7 +19,7 @@ export const EditDelete = () => {
         firstName: `${JSON.parse(localStorage.getItem('User-Creditinals')).firstName}`,
         lastName: `${JSON.parse(localStorage.getItem('User-Creditinals')).lastName}`,
         email: ` ${JSON.parse(localStorage.getItem('User-Creditinals')).email}`,
-        password: ` ${JSON.parse(localStorage.getItem('User-Creditinals')).email}`,
+        password: ` ${JSON.parse(localStorage.getItem('User-Creditinals')).password}`,
     })
 
 
